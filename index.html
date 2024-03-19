@@ -27,8 +27,8 @@
 
     <script>
       let dvd = document.getElementById('dvdLogo');
-      let speedX = 2; // Speed of the logo in the X direction
-      let speedY = 2; // Speed of the logo in the Y direction
+      let speedX = 1.5; // Speed of the logo in the X direction
+      let speedY = 1.5; // Speed of the logo in the Y direction
       // Set the initial X and Y position to a random value within the window's dimensions
       let x = Math.random() * (window.innerWidth - dvd.offsetWidth);
       let y = Math.random() * (window.innerHeight - dvd.offsetHeight);
@@ -37,14 +37,24 @@
       dvd.style.top = y + 'px'; // Set initial Y position
 
       function moveDVD() {
-        if (x + dvd.offsetWidth >= window.innerWidth || x <= 0) {
+        let dvdRightEdge = x + dvd.offsetWidth;
+        let dvdBottomEdge = y + dvd.offsetHeight;
+
+        // Adjust these values if you still see early bouncing
+        let windowRightEdge = window.innerWidth + 60;
+        let windowBottomEdge = window.innerHeight - 1;
+
+        if (dvdRightEdge >= windowRightEdge || x <= 0) {
           speedX *= -1; // Reverse direction on X axis
         }
-        if (y + dvd.offsetHeight >= window.innerHeight || y <= 0) {
+        if (dvdBottomEdge >= windowBottomEdge || y <= 0) {
           speedY *= -1; // Reverse direction on Y axis
         }
+
         x += speedX; // Update position on X axis
         y += speedY; // Update position on Y axis
+
+        // Apply the corrected position
         dvd.style.left = x + 'px';
         dvd.style.top = y + 'px';
 
