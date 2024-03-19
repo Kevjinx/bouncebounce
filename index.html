@@ -29,39 +29,47 @@
       let dvd = document.getElementById('dvdLogo');
       let speedX = 1.5; // Speed of the logo in the X direction
       let speedY = 1.5; // Speed of the logo in the Y direction
-      // Set the initial X and Y position to a random value within the window's dimensions
       let x = Math.random() * (window.innerWidth - dvd.offsetWidth);
       let y = Math.random() * (window.innerHeight - dvd.offsetHeight);
+
+      let moving = true; // New variable to control the animation state
 
       dvd.style.left = x + 'px'; // Set initial X position
       dvd.style.top = y + 'px'; // Set initial Y position
 
+      // Function to move the DVD logo
       function moveDVD() {
+        if (!moving) return; // If not moving, exit the function
+
         let dvdRightEdge = x + dvd.offsetWidth;
         let dvdBottomEdge = y + dvd.offsetHeight;
-
-        // Adjust these values if you still see early bouncing
-        let windowRightEdge = window.innerWidth + 60;
+        let windowRightEdge = window.innerWidth - 1;
         let windowBottomEdge = window.innerHeight - 1;
 
         if (dvdRightEdge >= windowRightEdge || x <= 0) {
-          speedX *= -1; // Reverse direction on X axis
+          speedX *= -1;
         }
         if (dvdBottomEdge >= windowBottomEdge || y <= 0) {
-          speedY *= -1; // Reverse direction on Y axis
+          speedY *= -1;
         }
 
-        x += speedX; // Update position on X axis
-        y += speedY; // Update position on Y axis
+        x += speedX;
+        y += speedY;
 
-        // Apply the corrected position
         dvd.style.left = x + 'px';
         dvd.style.top = y + 'px';
 
-        requestAnimationFrame(moveDVD); // Keep animating
+        requestAnimationFrame(moveDVD);
       }
 
-      moveDVD(); // Start animation
+      // Event listeners to control the animation
+      dvd.addEventListener('mouseover', () => (moving = false));
+      dvd.addEventListener('mouseout', () => {
+        moving = true;
+        moveDVD(); // Resume animation
+      });
+
+      moveDVD(); // Start the animation
     </script>
   </body>
 </html>
