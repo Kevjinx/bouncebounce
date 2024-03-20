@@ -65,7 +65,7 @@
       function moveDVD() {
         if (!moving) return; // If not moving, exit the function
 
-        let dvdRightEdge = x + dvd.offsetWidth;
+        let dvdRightEdge = x + dvd.offsetWidth - 80;
         let dvdBottomEdge = y + dvd.offsetHeight;
         let windowRightEdge = window.innerWidth;
         let windowBottomEdge = window.innerHeight;
