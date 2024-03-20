@@ -54,9 +54,16 @@
       let moving = true;
 
       // Extract the username from the URL path
-      let username = window.location.pathname.split('/').pop();
-      let imageUrl = `https://linkedin-connections-memoji.s3.us-west-1.amazonaws.com/${username}.png`;
+      let username = window.location.hash.substring(2);
+      let imageUrl = './images/bryanfenchel.png';
+      // Update the image URL if a specific username is provided in the URL path
+      if (username && username !== 'index.html') {
+        // Assuming 'index.html' is not a valid username
+        imageUrl = `https://linkedin-connections-memoji.s3.us-west-1.amazonaws.com/${username}.png`;
+      }
       dvd.style.backgroundImage = `url('${imageUrl}')`;
+      console.log('Username:', username);
+      console.log('Image URL:', imageUrl);
 
       dvd.style.left = x + 'px';
       dvd.style.top = y + 'px';
