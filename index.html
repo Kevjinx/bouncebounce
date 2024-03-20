@@ -14,24 +14,18 @@
       }
       #dvdLogo {
         position: absolute;
-        width: 250px; /* Adjusted to 2.5 times the original width */
-        height: 125px; /* Adjusted to 2.5 times the original height */
-        background-image: url('./images/bryanfenchel.png'); /* Path to your DVD logo image */
+        width: 250px;
+        height: 125px;
         background-size: contain;
         background-repeat: no-repeat;
-        cursor: pointer; /* Indicates that the element is clickable */
+        cursor: pointer;
       }
       #dvdLogo:hover::after {
         content: 'Upload Image';
         position: absolute;
         width: 100%;
         height: 100%;
-        background: rgba(
-          0,
-          0,
-          0,
-          0.7
-        ); /* Semi-transparent overlay to make the text visible */
+        background: rgba(0, 0, 0, 0.7);
         color: white;
         display: flex;
         justify-content: center;
@@ -39,10 +33,10 @@
         top: 0;
         left: 0;
         font-size: 14px;
-        pointer-events: none; /* Prevents the pseudo-element from interfering with click events on #dvdLogo */
+        pointer-events: none;
       }
       #fileInput {
-        display: none; /* Hide the file input */
+        display: none;
       }
     </style>
   </head>
@@ -52,20 +46,25 @@
 
     <script>
       let dvd = document.getElementById('dvdLogo');
-      let speedX = 1.5; // Speed of the logo in the X direction
-      let speedY = 1.5; // Speed of the logo in the Y direction
+      let speedX = 1.5;
+      let speedY = 1.5;
       let x = Math.random() * (window.innerWidth - dvd.offsetWidth);
       let y = Math.random() * (window.innerHeight - dvd.offsetHeight);
 
-      let moving = true; // New variable to control the animation state
+      let moving = true;
 
-      dvd.style.left = x + 'px'; // Set initial X position
-      dvd.style.top = y + 'px'; // Set initial Y position
+      // Extract the username from the URL path
+      let username = window.location.pathname.split('/').pop();
+      let imageUrl = `https://linkedin-connections-memoji.s3.us-west-1.amazonaws.com/${username}.png`;
+      dvd.style.backgroundImage = `url('${imageUrl}')`;
+
+      dvd.style.left = x + 'px';
+      dvd.style.top = y + 'px';
 
       function moveDVD() {
-        if (!moving) return; // If not moving, exit the function
+        if (!moving) return;
 
-        let dvdRightEdge = x + dvd.offsetWidth;
+        let dvdRightEdge = x + dvd.offsetWidth - 120;
         let dvdBottomEdge = y + dvd.offsetHeight;
         let windowRightEdge = window.innerWidth;
         let windowBottomEdge = window.innerHeight;
@@ -86,32 +85,29 @@
         requestAnimationFrame(moveDVD);
       }
 
-      // Start the animation
       moveDVD();
 
-      // Handle the image upload
       let fileInput = document.getElementById('fileInput');
 
       dvd.addEventListener('click', () => {
-        fileInput.click(); // Trigger the hidden file input when the DVD logo is clicked
+        fileInput.click();
       });
 
       fileInput.addEventListener('change', function () {
-        const file = this.files[0]; // Get the uploaded file
+        const file = this.files[0];
         if (file) {
           const reader = new FileReader();
           reader.onload = function (e) {
-            dvd.style.backgroundImage = `url('${e.target.result}')`; // Set the new image as the DVD logo's background
+            dvd.style.backgroundImage = `url('${e.target.result}')`;
           };
-          reader.readAsDataURL(file); // Read the file as a Data URL
+          reader.readAsDataURL(file);
         }
       });
 
-      // Prevent the animation from moving when hovered
       dvd.addEventListener('mouseover', () => (moving = false));
       dvd.addEventListener('mouseout', () => {
         moving = true;
-        moveDVD(); // Resume animation
+        moveDVD();
       });
     </script>
   </body>
